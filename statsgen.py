@@ -175,48 +175,38 @@ class StatsGen:
     def print_stats(self):
         """ Print password statistics. """
 
-        print "[+] Analyzing %d%% (%d/%d) of passwords" % (self.filter_counter*100/self.total_counter, self.filter_counter, self.total_counter)
-        print "    NOTE: Statistics below is relative to the number of analyzed passwords, not total number of passwords"
-        print "\n[*] Length:"
+        print ("[+] Analyzing %d%% (%d/%d) of passwords" % (self.filter_counter*100/self.total_counter, self.filter_counter, self.total_counter))
+        print ("    NOTE: Statistics below is relative to the number of analyzed passwords, not total number of passwords")
+        print ("\n[*] Length:")
         for (length,count) in sorted(self.stats_length.iteritems(), key=operator.itemgetter(1), reverse=True):
             if self.hiderare and not count*100/self.filter_counter > 0: continue
-            print "[+] %25d: %02d%% (%d)" % (length, count*100/self.filter_counter, count)
+            print ("[+] %25d: %02d%% (%d)" % (length, count*100/self.filter_counter, count))
 
-        print "\n[*] Character-set:"
+        print ("\n[*] Character-set:")
         for (char,count) in sorted(self.stats_charactersets.iteritems(), key=operator.itemgetter(1), reverse=True):
             if self.hiderare and not count*100/self.filter_counter > 0: continue
-            print "[+] %25s: %02d%% (%d)" % (char, count*100/self.filter_counter, count)
+            print ("[+] %25s: %02d%% (%d)" % (char, count*100/self.filter_counter, count))
 
-        print "\n[*] Password complexity:"
-        print "[+]                     digit: min(%s) max(%s)" % (self.mindigit, self.maxdigit)
-        print "[+]                     lower: min(%s) max(%s)" % (self.minlower, self.maxlower)
-        print "[+]                     upper: min(%s) max(%s)" % (self.minupper, self.maxupper)
-        print "[+]                   special: min(%s) max(%s)" % (self.minspecial, self.maxspecial)
+        print ("\n[*] Password complexity:")
+        print ("[+]                     digit: min(%s) max(%s)" % (self.mindigit, self.maxdigit))
+        print ("[+]                     lower: min(%s) max(%s)" % (self.minlower, self.maxlower))
+        print ("[+]                     upper: min(%s) max(%s)" % (self.minupper, self.maxupper))
+        print ("[+]                   special: min(%s) max(%s)" % (self.minspecial, self.maxspecial))
 
-        print "\n[*] Simple Masks:"
+        print ("\n[*] Simple Masks:")
         for (simplemask,count) in sorted(self.stats_simplemasks.iteritems(), key=operator.itemgetter(1), reverse=True):
             if self.hiderare and not count*100/self.filter_counter > 0: continue
-            print "[+] %25s: %02d%% (%d)" % (simplemask, count*100/self.filter_counter, count)
+            print ("[+] %25s: %02d%% (%d)" % (simplemask, count*100/self.filter_counter, count))
 
-        print "\n[*] Advanced Masks:"
+        print ("\n[*] Advanced Masks:")
         for (advancedmask,count) in sorted(self.stats_advancedmasks.iteritems(), key=operator.itemgetter(1), reverse=True):
             if count*100/self.filter_counter > 0:
-                print "[+] %25s: %02d%% (%d)" % (advancedmask, count*100/self.filter_counter, count)
+                print ("[+] %25s: %02d%% (%d)" % (advancedmask, count*100/self.filter_counter, count))
 
             if self.output_file:
                 self.output_file.write("%s,%d\n" % (advancedmask,count))
 
 if __name__ == "__main__":
-
-    header  = "                       _ \n"
-    header += "     StatsGen %s   | |\n"  % VERSION
-    header += "      _ __   __ _  ___| | _\n"
-    header += "     | '_ \ / _` |/ __| |/ /\n"
-    header += "     | |_) | (_| | (__|   < \n"
-    header += "     | .__/ \__,_|\___|_|\_\\\n"
-    header += "     | |                    \n"
-    header += "     |_| iphelix@thesprawl.org\n"
-    header += "\n"
 
     parser = OptionParser("%prog [options] passwords.txt\n\nType --help for more options", version="%prog "+VERSION)
 
@@ -235,13 +225,28 @@ if __name__ == "__main__":
 
     # Print program header
     if not options.quiet:
-        print header
+        print("\033[0;32m                       _ \033[00m")
+        print("\033[0;32m     StatsGen {}   | |  \033[00m".format(VERSION))
+        print("\033[0;32m      _ __   __ _  ___| | _\033[00m")
+        print("\033[0;32m     | '_ | / _` |/ __| |/ /\033[00m")
+        print("\033[0;32m     | |_) | (_| | (__|   < \033[00m")
+        print("\033[0;32m     | .__/|__,_|___|_|_|\\_\\ \033[00m")
+        print("\033[0;32m     | |                    \033[00m")
+        print("\033[0;32m     |_| iphelix@thesprawl.org\033[00m")
+        print("\n")
+        # print("\n" * 2)
+        # print("\033[0;32m _               _        _       _     _\033[00m")
+        # print("\033[0;32m| |__   __ _ ___| |__    / \\   __| | __| | ___ _ __\033[00m")
+        # print("\033[0;32m| '_ \\ / _` / __| '_ \\  / _ \\ / _` |/ _` |/ _ \\ '__|\033[00m")
+        # print("\033[0;32m| | | | (_| \\__ \\ | | |/ ___ \\ (_| | (_| |  __/ |\033[00m")
+        # print("\033[0;32m|_| |_|\\__,_|___/_| |_/_/   \\_\\__,_|\\__,_|\\___|_|\033[00m")
+        # print("\n" * 2)
 
     if len(args) != 1:
         parser.error("no passwords file specified")
         exit(1)
 
-    print "[*] Analyzing passwords in [%s]" % args[0]
+    print ("[*] Analyzing passwords in [%s]" % args[0])
 
     statsgen = StatsGen()
 
@@ -253,7 +258,7 @@ if __name__ == "__main__":
     if options.hiderare: statsgen.hiderare = options.hiderare
 
     if options.output_file:
-        print "[*] Saving advanced masks and occurrences to [%s]" % options.output_file
+        print ("[*] Saving advanced masks and occurrences to [%s]" % options.output_file)
         statsgen.output_file = open(options.output_file, 'w')
 
     statsgen.generate_stats(args[0])
